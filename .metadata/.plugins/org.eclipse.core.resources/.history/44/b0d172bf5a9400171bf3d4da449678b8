@@ -1,0 +1,50 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class UserTerminal {
+
+	private Scanner sc;
+
+	public UserTerminal() {
+		sc = new Scanner(System.in);
+
+		welcome();
+
+	}
+
+	public static void main(String[] args) {
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		System.out.println(timeStamp);
+		UserTerminal ut = new UserTerminal();
+	}
+
+	private void welcome() {
+		System.out.println("TODO LIST APP");
+		System.out.println("Daniel Neelappa - 9/6/17");
+		System.out.println("If stuck, type \"help\"");
+		while (true) {
+			System.out.println("Type a command:");
+			String command = sc.nextLine();
+			processCommand(command);
+		}
+	}
+
+	private void processCommand(String command) {
+		String[] commandargs = null;
+		if(command.contains(":")){
+			commandargs = command.split(":");
+			command = commandargs[0];
+		}
+		switch (command) {
+		case "ls":
+			listTODO();
+		}
+	}
+
+	private void listTODO() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

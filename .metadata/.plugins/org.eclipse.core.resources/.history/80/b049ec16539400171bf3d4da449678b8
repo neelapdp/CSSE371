@@ -1,0 +1,18 @@
+import java.util.LinkedList;
+
+public class List {
+
+
+	public List(){
+		list  = new LinkedList<Task>();
+	}
+	
+	public void addTask(Task t) {
+		list.add(t);
+	}
+	
+	public Task () {
+		list.
+	}
+	
+}

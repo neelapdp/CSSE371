@@ -1,0 +1,131 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.TextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Scanner;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+
+/* adapted from https://learn-java-by-example.com/java/add-checkbox-items-jlist/
+ * made by Daniel Neelappa
+ * */
+public class jes {
+	public static void main(String args[]) {
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Create a list containing CheckboxListItem's
+		DefaultListModel<CheckboxListItem> model = new DefaultListModel<CheckboxListItem>();
+		JList<CheckboxListItem> list = new JList<CheckboxListItem>(model);
+
+		model.addElement(new CheckboxListItem("<html>Text color: <font color='red'>red</font></html>"));
+		Scanner sc = new Scanner(System.in);
+
+		// Use a CheckboxListRenderer (see below)
+		// to renderer list cells
+
+		list.setCellRenderer(new CheckboxListRenderer());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Add a mouse listener to handle changing selection
+
+		list.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent event) {
+				JList<CheckboxListItem> list = (JList<CheckboxListItem>) event.getSource();
+
+				// Get index of item clicked
+
+				int index = list.locationToIndex(event.getPoint());
+				CheckboxListItem item = (CheckboxListItem) list.getModel().getElementAt(index);
+
+				// Toggle selected state
+
+				item.setSelected(!item.isSelected());
+
+				// Repaint cell
+
+				list.repaint(list.getCellBounds(index, index));
+			}
+		});
+
+		// create java text field for input new tasks
+		JTextField textField = new JTextField("");
+		textField.setSize(200, 50);
+		JLabel status = new JLabel("HILA");
+		JButton enter = new JButton("Enter");
+		JButton START = new JButton("START");
+
+		JPanel topPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints bagC = new GridBagConstraints();
+		bagC.weightx = 25.0;
+		bagC.fill = GridBagConstraints.HORIZONTAL;
+
+		topPanel.add(status, bagC);
+		topPanel.add(textField, bagC);
+		topPanel.add(enter, bagC);
+
+		frame.getContentPane().add(topPanel, BorderLayout.NORTH);
+		frame.getContentPane().add(new JScrollPane(list));
+		frame.pack();
+		frame.setVisible(true);
+
+		while (true) {
+			if (model.get(0).isSelected()) {
+				System.out.println("check");
+			}
+		}
+	}
+}
+
+// Represents items in the list that can be selected
+
+class CheckboxListItem {
+	private String label;
+	private boolean isSelected = false;
+
+	public CheckboxListItem(String label) {
+		this.label = label;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
+
+	public String toString() {
+		return label;
+	}
+}
+
+// Handles rendering cells in the list using a check box
+
+class CheckboxListRenderer extends JCheckBox implements ListCellRenderer<CheckboxListItem> {
+
+	@Override
+	public Component getListCellRendererComponent(JList<? extends CheckboxListItem> list, CheckboxListItem value,
+			int index, boolean isSelected, boolean cellHasFocus) {
+		setEnabled(list.isEnabled());
+		setSelected(value.isSelected());
+		setFont(list.getFont());
+		setBackground(list.getBackground());
+		setForeground(list.getForeground());
+		setText(value.toString());
+		return this;
+	}
+}

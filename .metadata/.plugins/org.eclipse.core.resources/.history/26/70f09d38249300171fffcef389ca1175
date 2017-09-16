@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class OpenFile {
+
+	private String fileName;
+
+	public OpenFile(String fileName) {
+		this.fileName = fileName;
+	}
+
+	// store line that is read
+	String line = null;
+
+	try
+	{
+		// FileReader open to start reading
+		FileReader fileReader = new FileReader(fileName);
+
+		// Always wrap FileReader in BufferedReader.
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		// keep reading the file and parse the data
+		while ((line = bufferedReader.readLine()) != null) {
+			try {
+				String[] parsedLine = line.split("|");
+				
+
+			} catch (Exception ex) {
+
+			}
+
+		}
+
+		//  close file.
+		bufferedReader.close();
+	}catch(FileNotFoundException ex)
+	{
+		System.out.println("Unable to open file '" + fileName + "'");
+	}catch(IOException ex1)
+	{
+		System.out.println("Error reading file '" + fileName + "'");
+	}
+}}

@@ -1,0 +1,37 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Task {
+	private String task;
+	private Long time;
+	
+	public Task(String Task, String time) throws ParseException {
+		this.task = Task;
+		this.time = Long.parseLong(time);
+	}
+	
+	public Task(String Task, Long time) {
+		this.time = time;
+		this.task = Task;
+	}
+	
+	
+	public Task(String Task) {
+		this.task = Task;
+		this.time = (long) 0
+	}
+	
+	public String getTask(){
+		return task;
+	}
+	
+	public double getElapsed(){
+		long elapsedTime = System.nanoTime() - this.time;
+		double seconds = (double)elapsedTime / 1000000000.0;
+
+		return seconds;
+		
+	}
+	 
+}
